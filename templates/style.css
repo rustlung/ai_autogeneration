@@ -1,0 +1,273 @@
+/* AI Client Report Generator - PDF Styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@page {
+    size: A4;
+    margin: 2cm 2cm 2.5cm 2cm;
+}
+
+body {
+    font-family: 'DejaVu Sans', 'Arial', sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+}
+
+.container {
+    max-width: 100%;
+}
+
+/* Header */
+.header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #2c3e50;
+}
+
+.header h1 {
+    font-size: 24pt;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 10pt;
+    color: #555;
+}
+
+.meta-item {
+    display: flex;
+}
+
+.meta-label {
+    font-weight: 600;
+    min-width: 140px;
+}
+
+.meta-value {
+    color: #666;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 25px;
+    page-break-inside: avoid;
+}
+
+.section h2 {
+    font-size: 16pt;
+    color: #34495e;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e0e0e0;
+    font-weight: 600;
+}
+
+/* Info Grid */
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.info-item {
+    display: flex;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+    min-width: 160px;
+}
+
+.info-value {
+    color: #333;
+    flex: 1;
+}
+
+/* Sentiment Box */
+.sentiment-box {
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 5px solid;
+}
+
+.sentiment-positive {
+    background: #d4edda;
+    border-color: #28a745;
+}
+
+.sentiment-neutral {
+    background: #fff3cd;
+    border-color: #ffc107;
+}
+
+.sentiment-negative {
+    background: #f8d7da;
+    border-color: #dc3545;
+}
+
+.sentiment-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sentiment-label {
+    font-weight: 700;
+    font-size: 13pt;
+    text-transform: capitalize;
+}
+
+.sentiment-score {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14pt;
+}
+
+.star {
+    color: #ffc107;
+}
+
+.star.filled {
+    color: #ff9800;
+}
+
+/* Content Box */
+.content-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #6c757d;
+}
+
+.content-box p {
+    margin: 0;
+    text-align: justify;
+    line-height: 1.7;
+}
+
+/* Highlights for business requirements */
+.highlight-timeline {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.highlight-budget {
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Requirements Box */
+.requirements-box {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 5px solid #ffc107;
+}
+
+.requirements-intro {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #856404;
+}
+
+.requirements-list {
+    margin-left: 20px;
+    padding-left: 15px;
+}
+
+.requirements-list li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+    color: #555;
+    list-style-type: square;
+}
+
+.requirements-list li::marker {
+    color: #ffc107;
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+/* Lists */
+.key-points-list,
+.next-steps-list {
+    margin-left: 20px;
+    padding-left: 15px;
+}
+
+.key-points-list li,
+.next-steps-list li {
+    margin-bottom: 12px;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.key-points-list li {
+    list-style-type: disc;
+    color: #555;
+}
+
+.key-points-list li::marker {
+    color: #3498db;
+    font-size: 12pt;
+}
+
+.next-steps-list li {
+    list-style-type: decimal;
+    color: #555;
+    padding-left: 8px;
+}
+
+.next-steps-list li::marker {
+    color: #e74c3c;
+    font-weight: 700;
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+    text-align: center;
+    font-size: 9pt;
+    color: #999;
+}
+
+/* Print Optimization */
+@media print {
+    body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .section {
+        page-break-inside: avoid;
+    }
+}
+
+/* Avoid breaks inside important elements */
+h2, h3 {
+    page-break-after: avoid;
+}
+
+ul, ol {
+    page-break-inside: avoid;
+}

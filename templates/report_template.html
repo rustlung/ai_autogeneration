@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчёт по диалогу с клиентом</title>
+    <style>
+        {{ css_content }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Отчёт по диалогу с клиентом</h1>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">Дата создания:</span>
+                    <span class="meta-value">{{ generation_date }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Источник:</span>
+                    <span class="meta-value">{{ transcript_filename }}</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Client Information -->
+        <section class="section">
+            <h2>Информация о клиенте</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Имя клиента:</span>
+                    <span class="info-value">{{ report_data.client_name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Тема обращения:</span>
+                    <span class="info-value">{{ report_data.topic }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sentiment Analysis -->
+        <section class="section">
+            <h2>Анализ настроения</h2>
+            <div class="sentiment-box sentiment-{{ report_data.sentiment.label.lower() }}">
+                <div class="sentiment-content">
+                    <span class="sentiment-label">{{ report_data.sentiment.label }}</span>
+                    <span class="sentiment-score">
+                        {% for i in range(5) %}
+                            {% if i < report_data.sentiment.score %}
+                                <span class="star filled">★</span>
+                            {% else %}
+                                <span class="star">☆</span>
+                            {% endif %}
+                        {% endfor %}
+                        ({{ report_data.sentiment.score }}/5)
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Request -->
+        <section class="section">
+            <h2>Основной запрос</h2>
+            <div class="content-box">
+                <p>{{ report_data.main_request }}</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="section">
+            <h2>Краткое содержание</h2>
+            <div class="content-box">
+                <p>{{ report_data.summary }}</p>
+            </div>
+        </section>
+
+        <!-- Business Requirements -->
+        {% if report_data.desired_timeline or report_data.budget_range %}
+        <section class="section">
+            <h2>Желаемые сроки и стоимость</h2>
+            <div class="info-grid">
+                {% if report_data.desired_timeline %}
+                <div class="info-item">
+                    <span class="info-label">Желаемые сроки:</span>
+                    <span class="info-value highlight-timeline">{{ report_data.desired_timeline }}</span>
+                </div>
+                {% endif %}
+                {% if report_data.budget_range %}
+                <div class="info-item">
+                    <span class="info-label">Бюджет/Стоимость:</span>
+                    <span class="info-value highlight-budget">{{ report_data.budget_range }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Core Requirements -->
+        {% if report_data.core_requirements %}
+        <section class="section">
+            <h2>Основные требования к продукту</h2>
+            <div class="requirements-box">
+                <p class="requirements-intro">Что точно должно быть в финальном продукте:</p>
+                <ul class="requirements-list">
+                    {% for req in report_data.core_requirements %}
+                    <li>{{ req }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Key Points -->
+        <section class="section">
+            <h2>Ключевые моменты</h2>
+            <ul class="key-points-list">
+                {% for point in report_data.key_points %}
+                <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="section">
+            <h2>Рекомендуемые действия</h2>
+            <ol class="next-steps-list">
+                {% for step in report_data.next_steps %}
+                <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Этот отчёт создан автоматически с помощью AI Client Report Generator</p>
+        </footer>
+    </div>
+</body>
+</html>
