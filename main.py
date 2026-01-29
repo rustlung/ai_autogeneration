@@ -7,6 +7,7 @@ Generates PDF reports from client dialogue transcripts using AI analysis.
 import argparse
 import logging
 import sys
+from typing import List
 from datetime import datetime
 from pathlib import Path
 
@@ -105,10 +106,52 @@ Examples:
     return args
 
 
+def prompt_select(prompt_title: str, options: List[Path]) -> Path:
+    """Prompt user to select a file from a list or enter a custom path."""
+    print(f"\n{prompt_title}")
+    for idx, option in enumerate(options, start=1):
+        print(f"{idx}. {option}")
+    print("0. Ввести путь вручную")
+
+    while True:
+        choice = input("Выберите номер: ").strip()
+        if choice == "0":
+            custom_path = input("Введите путь к файлу: ").strip()
+            return Path(custom_path)
+        if choice.isdigit():
+            index = int(choice)
+            if 1 <= index <= len(options):
+                return options[index - 1]
+        print("Некорректный выбор. Повторите.")
+
+
+def apply_cli_menu(args):
+    """Interactive menu to select transcript and template."""
+    transcript_options = sorted(config.FIXTURES_DIR.glob("*.txt"))
+    template_options = sorted(config.TEMPLATES_DIR.glob("*.html"))
+
+    if not transcript_options:
+        print("✗ В fixtures нет .txt файлов для выбора.")
+        return args
+    if not template_options:
+        print("✗ В templates нет .html файлов для выбора.")
+        return args
+
+    selected_transcript = prompt_select("Выберите транскрипт:", transcript_options)
+    selected_template = prompt_select("Выберите шаблон:", template_options)
+
+    args.input = selected_transcript
+    args.template = selected_template
+    args.report_type = "design" if selected_template.name == "design_report_template.html" else "client"
+    return args
+
+
 def main():
     """Main application entry point."""
     # Parse arguments
     args = parse_arguments()
+    if len(sys.argv) == 1:
+        args = apply_cli_menu(args)
     
     # Setup logging
     setup_logging(log_level=args.log_level)
