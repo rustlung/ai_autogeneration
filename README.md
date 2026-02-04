@@ -18,9 +18,21 @@
 
 ## 📸 Demo
 
-```markdown
-![Report Example](assets/report_example.pdf)
-![Report Example](assets/report_example_site.pdf)
+### Standard Report
+
+![Standard Report](assets/standard_report_preview.png)
+
+---
+
+### Design Report (with AI image)
+
+![Design Report Page 1](assets/design_report_page1.png)
+![Design Report Page 2](assets/design_report_page2.png)
+
+📄 Full examples:
+- [Standard Report PDF](assets/sample_report.pdf)
+- [Design Report PDF](assets/design_report.pdf)
+
 🏗 Project Structure
 main.py — точка входа
 
