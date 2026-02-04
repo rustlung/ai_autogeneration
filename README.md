@@ -33,7 +33,10 @@
 - [Standard Report PDF](assets/sample_report.pdf)
 - [Design Report PDF](assets/design_report.pdf)
 
-🏗 Project Structure
+---
+
+## 🏗 Project Structure
+
 main.py — точка входа
 
 utils/ — обработка AI, генерация PDF, схемы данных
@@ -48,40 +51,50 @@ logs/ — логирование
 
 reports/ — итоговые PDF
 
-⚙️ Installation
-bash
-Копировать код
+---
+
+## ⚙️ Installation
+```bash
 python -m venv venv
 source venv/bin/activate  # или venv\Scripts\activate
 pip install -r requirements.txt
+```
 Требуются системные зависимости для WeasyPrint (см. официальную документацию).
 
-🔧 Configuration
+---
+
+## 🔧 Configuration
 Создайте .env на основе .env.example:
 
-env
-Копировать код
+```env
 OPENAI_API_KEY=your_key
 OPENAI_MODEL=gpt-4o-mini
 CACHE_DIR=cache/ai_outputs
 LOG_LEVEL=INFO
-▶️ Usage
+```
+
+---
+
+## ▶️ Usage
 Интерактивный режим:
 
-bash
-Копировать код
+```bash
 python main.py
+```
 CLI-режим:
 
-bash
-Копировать код
+```bash
 python main.py --input transcript.txt --output report.pdf
+```
 Отключить кэш:
 
-bash
-Копировать код
+```bash
 python main.py --no-cache
-📦 Tech Stack
+```
+
+---
+
+## 📦 Tech Stack
 Python 3.8+
 
 OpenAI SDK
@@ -94,7 +107,9 @@ WeasyPrint
 
 python-dotenv
 
-🛠 Practical Use Case
+---
+
+## 🛠 Practical Use Case
 Автоматизация подготовки отчётов после клиентских встреч
 
 Формирование дизайн-брифов
@@ -103,5 +118,7 @@ python-dotenv
 
 Интеграция в CI/CD или CRM-процессы
 
-📜 License
+---
+
+## 📜 License
 MIT
