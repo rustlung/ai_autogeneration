@@ -7,7 +7,7 @@ Generates PDF reports from client dialogue transcripts using AI analysis.
 import argparse
 import logging
 import sys
-from typing import List
+from typing import List, TextIO
 from datetime import datetime
 from pathlib import Path
 
@@ -19,10 +19,54 @@ from utils.ai_processor import (
     extract_design_brief,
     make_image_prompt_from_brief
 )
-from utils.pdf_generator import generate_pdf_report
 from services.openai_client import generate_image
 
 logger = logging.getLogger(__name__)
+
+
+class StderrFilter:
+    """Filter specific GLib warnings from stderr output."""
+    def __init__(self, wrapped: TextIO):
+        self._wrapped = wrapped
+        self._buffer = ""
+
+    def write(self, data: str):
+        self._buffer += data
+        while "\n" in self._buffer:
+            line, self._buffer = self._buffer.split("\n", 1)
+            if "GLib-GIO-WARNING" in line:
+                continue
+            self._wrapped.write(line + "\n")
+
+    def flush(self):
+        if self._buffer:
+            if "GLib-GIO-WARNING" not in self._buffer:
+                self._wrapped.write(self._buffer)
+            self._buffer = ""
+        self._wrapped.flush()
+
+    def isatty(self):
+        return self._wrapped.isatty()
+
+    def fileno(self):
+        return self._wrapped.fileno()
+
+    @property
+    def encoding(self):
+        return self._wrapped.encoding
+
+    @property
+    def errors(self):
+        return self._wrapped.errors
+
+    def writable(self):
+        return self._wrapped.writable()
+
+
+def install_glib_warning_filter():
+    """Suppress noisy GLib-GIO warnings on Windows."""
+    if sys.stderr and not isinstance(sys.stderr, StderrFilter):
+        sys.stderr = StderrFilter(sys.stderr)
 
 
 def parse_arguments():
@@ -148,6 +192,7 @@ def apply_cli_menu(args):
 
 def main():
     """Main application entry point."""
+    install_glib_warning_filter()
     # Parse arguments
     args = parse_arguments()
     if len(sys.argv) == 1:
@@ -287,6 +332,7 @@ def main():
         css_path = args.template.parent / 'style.css'
         
         try:
+            from utils.pdf_generator import generate_pdf_report
             generate_pdf_report(
                 report_data=report_data,
                 output_path=args.output,
